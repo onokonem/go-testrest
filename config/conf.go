@@ -21,14 +21,16 @@ type StructConfigDB struct {
 // Listen: local [addr]:port to listen on
 // DB: database params (see StructConfigDB)
 type StructConfig struct {
-	Listen string         `yaml:"listen"`
-	DB     StructConfigDB `yaml:"db"`
+	Host string         `yaml:"host"`
+	Port int            `yaml:"port"`
+	DB   StructConfigDB `yaml:"db"`
 }
 
 // Config struct ready to be utilized by yaml.Unmarshal(in []byte, out interface{})
 // with all the defaults set
 var Conf = StructConfig{
-	Listen: ":8080",
+	Host: "0.0.0.0",
+	Port: 8080,
 	DB: StructConfigDB{
 		Driver: "mysql",
 		DSN:    "root@/testrest",
