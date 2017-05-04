@@ -27,7 +27,7 @@ func NewGetAccountByID(ctx *middleware.Context, handler GetAccountByIDHandler) *
 	return &GetAccountByID{Context: ctx, Handler: handler}
 }
 
-/*GetAccountByID swagger:route GET /account/{accountID} account getAccountById
+/*GetAccountByID swagger:route GET /account/{id} account getAccountById
 
 Find account by ID
 

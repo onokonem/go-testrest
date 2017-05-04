@@ -7,11 +7,18 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
+
+	"github.com/go-openapi/swag"
 )
 
 // AddAccountURL generates an URL for the add account operation
 type AddAccountURL struct {
+	Amount int64
+	Name   string
+
 	_basePath string
+	// avoid unkeyed usage
+	_ struct{}
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
@@ -40,6 +47,20 @@ func (o *AddAccountURL) Build() (*url.URL, error) {
 		_basePath = "/testrest"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
+
+	qs := make(url.Values)
+
+	amount := swag.FormatInt64(o.Amount)
+	if amount != "" {
+		qs.Set("amount", amount)
+	}
+
+	name := o.Name
+	if name != "" {
+		qs.Set("name", name)
+	}
+
+	result.RawQuery = qs.Encode()
 
 	return &result, nil
 }

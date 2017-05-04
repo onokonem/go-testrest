@@ -33,7 +33,7 @@ type GetAccountByIDParams struct {
 	  Required: true
 	  In: path
 	*/
-	AccountID int64
+	ID int64
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -42,8 +42,8 @@ func (o *GetAccountByIDParams) BindRequest(r *http.Request, route *middleware.Ma
 	var res []error
 	o.HTTPRequest = r
 
-	rAccountID, rhkAccountID, _ := route.Params.GetOK("accountID")
-	if err := o.bindAccountID(rAccountID, rhkAccountID, route.Formats); err != nil {
+	rID, rhkID, _ := route.Params.GetOK("id")
+	if err := o.bindID(rID, rhkID, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -53,7 +53,7 @@ func (o *GetAccountByIDParams) BindRequest(r *http.Request, route *middleware.Ma
 	return nil
 }
 
-func (o *GetAccountByIDParams) bindAccountID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *GetAccountByIDParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -61,9 +61,9 @@ func (o *GetAccountByIDParams) bindAccountID(rawData []string, hasKey bool, form
 
 	value, err := swag.ConvertInt64(raw)
 	if err != nil {
-		return errors.InvalidType("accountID", "path", "int64", raw)
+		return errors.InvalidType("id", "path", "int64", raw)
 	}
-	o.AccountID = value
+	o.ID = value
 
 	return nil
 }

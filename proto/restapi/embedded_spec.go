@@ -33,9 +33,6 @@ func init() {
   "paths": {
     "/account": {
       "post": {
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
@@ -46,26 +43,38 @@ func init() {
         "operationId": "addAccount",
         "parameters": [
           {
-            "description": "Account to be added",
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Account"
-            }
+            "type": "string",
+            "description": "Name for the new account",
+            "name": "name",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "Initial amount for the new account",
+            "name": "amount",
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
-          "204": {
-            "description": "successful operation"
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
           },
           "405": {
             "description": "Invalid input"
+          },
+          "500": {
+            "description": "Operation error"
           }
         }
       }
     },
-    "/account/deposit/{accountID}": {
+    "/account/deposit/{id}": {
       "put": {
         "produces": [
           "application/json"
@@ -80,7 +89,7 @@ func init() {
             "type": "integer",
             "format": "int64",
             "description": "Account id to update",
-            "name": "accountID",
+            "name": "id",
             "in": "path",
             "required": true
           },
@@ -89,12 +98,16 @@ func init() {
             "format": "int64",
             "description": "Amount to be placed",
             "name": "amount",
-            "in": "query"
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
-          "204": {
-            "description": "successful operation"
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
           },
           "400": {
             "description": "Invalid ID supplied"
@@ -137,11 +150,17 @@ func init() {
           },
           "400": {
             "description": "Invalid status value"
+          },
+          "404": {
+            "description": "Account not found"
+          },
+          "500": {
+            "description": "Operation error"
           }
         }
       }
     },
-    "/account/transfer/{accountID}": {
+    "/account/transfer/{id}": {
       "put": {
         "produces": [
           "application/json"
@@ -156,7 +175,7 @@ func init() {
             "type": "integer",
             "format": "int64",
             "description": "Account id to take money from",
-            "name": "accountID",
+            "name": "id",
             "in": "path",
             "required": true
           },
@@ -165,19 +184,27 @@ func init() {
             "format": "int64",
             "description": "Amount to be transferred",
             "name": "amount",
-            "in": "query"
+            "in": "query",
+            "required": true
           },
           {
             "type": "integer",
             "format": "int64",
             "description": "Account id to place money to",
             "name": "target",
-            "in": "query"
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
-          "204": {
-            "description": "successful operation"
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Account"
+              }
+            }
           },
           "400": {
             "description": "Invalid ID supplied"
@@ -191,7 +218,7 @@ func init() {
         }
       }
     },
-    "/account/withdrawal/{accountID}": {
+    "/account/withdrawal/{id}": {
       "put": {
         "produces": [
           "application/json"
@@ -206,7 +233,7 @@ func init() {
             "type": "integer",
             "format": "int64",
             "description": "Account id to update",
-            "name": "accountID",
+            "name": "id",
             "in": "path",
             "required": true
           },
@@ -215,23 +242,30 @@ func init() {
             "format": "int64",
             "description": "Amount to be withdrawed",
             "name": "amount",
-            "in": "query"
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
-          "204": {
-            "description": "successful operation"
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
           },
           "400": {
             "description": "Invalid ID supplied"
           },
           "404": {
             "description": "Account not found"
+          },
+          "500": {
+            "description": "Operation error"
           }
         }
       }
     },
-    "/account/{accountID}": {
+    "/account/{id}": {
       "get": {
         "description": "Returns a single account",
         "produces": [
@@ -247,7 +281,7 @@ func init() {
             "type": "integer",
             "format": "int64",
             "description": "ID of account to return",
-            "name": "accountID",
+            "name": "id",
             "in": "path",
             "required": true
           }
@@ -263,7 +297,10 @@ func init() {
             "description": "Invalid ID supplied"
           },
           "404": {
-            "description": "Pet not found"
+            "description": "Account not found"
+          },
+          "500": {
+            "description": "Operation error"
           }
         }
       },
@@ -281,7 +318,7 @@ func init() {
             "type": "integer",
             "format": "int64",
             "description": "Account id to delete",
-            "name": "accountID",
+            "name": "id",
             "in": "path",
             "required": true
           }
@@ -322,6 +359,9 @@ func init() {
           },
           "400": {
             "description": "Invalid status value"
+          },
+          "500": {
+            "description": "Operation error"
           }
         }
       }

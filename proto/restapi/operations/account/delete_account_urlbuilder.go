@@ -14,7 +14,7 @@ import (
 
 // DeleteAccountURL generates an URL for the delete account operation
 type DeleteAccountURL struct {
-	AccountID int64
+	ID int64
 
 	_basePath string
 	// avoid unkeyed usage
@@ -40,13 +40,13 @@ func (o *DeleteAccountURL) SetBasePath(bp string) {
 func (o *DeleteAccountURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/account/{accountID}"
+	var _path = "/account/{id}"
 
-	accountID := swag.FormatInt64(o.AccountID)
-	if accountID != "" {
-		_path = strings.Replace(_path, "{accountID}", accountID, -1)
+	id := swag.FormatInt64(o.ID)
+	if id != "" {
+		_path = strings.Replace(_path, "{id}", id, -1)
 	} else {
-		return nil, errors.New("AccountID is required on DeleteAccountURL")
+		return nil, errors.New("ID is required on DeleteAccountURL")
 	}
 	_basePath := o._basePath
 	if _basePath == "" {

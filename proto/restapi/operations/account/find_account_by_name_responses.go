@@ -74,3 +74,45 @@ func (o *FindAccountByNameBadRequest) WriteResponse(rw http.ResponseWriter, prod
 
 	rw.WriteHeader(400)
 }
+
+// FindAccountByNameNotFoundCode is the HTTP code returned for type FindAccountByNameNotFound
+const FindAccountByNameNotFoundCode int = 404
+
+/*FindAccountByNameNotFound Account not found
+
+swagger:response findAccountByNameNotFound
+*/
+type FindAccountByNameNotFound struct {
+}
+
+// NewFindAccountByNameNotFound creates FindAccountByNameNotFound with default headers values
+func NewFindAccountByNameNotFound() *FindAccountByNameNotFound {
+	return &FindAccountByNameNotFound{}
+}
+
+// WriteResponse to the client
+func (o *FindAccountByNameNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(404)
+}
+
+// FindAccountByNameInternalServerErrorCode is the HTTP code returned for type FindAccountByNameInternalServerError
+const FindAccountByNameInternalServerErrorCode int = 500
+
+/*FindAccountByNameInternalServerError Operation error
+
+swagger:response findAccountByNameInternalServerError
+*/
+type FindAccountByNameInternalServerError struct {
+}
+
+// NewFindAccountByNameInternalServerError creates FindAccountByNameInternalServerError with default headers values
+func NewFindAccountByNameInternalServerError() *FindAccountByNameInternalServerError {
+	return &FindAccountByNameInternalServerError{}
+}
+
+// WriteResponse to the client
+func (o *FindAccountByNameInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+}

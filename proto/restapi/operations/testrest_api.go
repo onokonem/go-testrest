@@ -275,12 +275,12 @@ func (o *TestrestAPI) initHandlerCache() {
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/account/{accountID}"] = account.NewDeleteAccount(o.context, o.AccountDeleteAccountHandler)
+	o.handlers["DELETE"]["/account/{id}"] = account.NewDeleteAccount(o.context, o.AccountDeleteAccountHandler)
 
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
-	o.handlers["PUT"]["/account/deposit/{accountID}"] = account.NewDepositToAccount(o.context, o.AccountDepositToAccountHandler)
+	o.handlers["PUT"]["/account/deposit/{id}"] = account.NewDepositToAccount(o.context, o.AccountDepositToAccountHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
@@ -290,7 +290,7 @@ func (o *TestrestAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/account/{accountID}"] = account.NewGetAccountByID(o.context, o.AccountGetAccountByIDHandler)
+	o.handlers["GET"]["/account/{id}"] = account.NewGetAccountByID(o.context, o.AccountGetAccountByIDHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
@@ -300,12 +300,12 @@ func (o *TestrestAPI) initHandlerCache() {
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
-	o.handlers["PUT"]["/account/transfer/{accountID}"] = account.NewTransferBetweenAccounts(o.context, o.AccountTransferBetweenAccountsHandler)
+	o.handlers["PUT"]["/account/transfer/{id}"] = account.NewTransferBetweenAccounts(o.context, o.AccountTransferBetweenAccountsHandler)
 
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
-	o.handlers["PUT"]["/account/withdrawal/{accountID}"] = account.NewWithdrawAccount(o.context, o.AccountWithdrawAccountHandler)
+	o.handlers["PUT"]["/account/withdrawal/{id}"] = account.NewWithdrawAccount(o.context, o.AccountWithdrawAccountHandler)
 
 }
 

@@ -7,27 +7,51 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	"github.com/onokonem/go-testrest/proto/models"
 )
 
-// WithdrawAccountNoContentCode is the HTTP code returned for type WithdrawAccountNoContent
-const WithdrawAccountNoContentCode int = 204
+// WithdrawAccountOKCode is the HTTP code returned for type WithdrawAccountOK
+const WithdrawAccountOKCode int = 200
 
-/*WithdrawAccountNoContent successful operation
+/*WithdrawAccountOK successful operation
 
-swagger:response withdrawAccountNoContent
+swagger:response withdrawAccountOK
 */
-type WithdrawAccountNoContent struct {
+type WithdrawAccountOK struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Account `json:"body,omitempty"`
 }
 
-// NewWithdrawAccountNoContent creates WithdrawAccountNoContent with default headers values
-func NewWithdrawAccountNoContent() *WithdrawAccountNoContent {
-	return &WithdrawAccountNoContent{}
+// NewWithdrawAccountOK creates WithdrawAccountOK with default headers values
+func NewWithdrawAccountOK() *WithdrawAccountOK {
+	return &WithdrawAccountOK{}
+}
+
+// WithPayload adds the payload to the withdraw account o k response
+func (o *WithdrawAccountOK) WithPayload(payload *models.Account) *WithdrawAccountOK {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the withdraw account o k response
+func (o *WithdrawAccountOK) SetPayload(payload *models.Account) {
+	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *WithdrawAccountNoContent) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *WithdrawAccountOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(204)
+	rw.WriteHeader(200)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }
 
 // WithdrawAccountBadRequestCode is the HTTP code returned for type WithdrawAccountBadRequest
@@ -70,4 +94,25 @@ func NewWithdrawAccountNotFound() *WithdrawAccountNotFound {
 func (o *WithdrawAccountNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(404)
+}
+
+// WithdrawAccountInternalServerErrorCode is the HTTP code returned for type WithdrawAccountInternalServerError
+const WithdrawAccountInternalServerErrorCode int = 500
+
+/*WithdrawAccountInternalServerError Operation error
+
+swagger:response withdrawAccountInternalServerError
+*/
+type WithdrawAccountInternalServerError struct {
+}
+
+// NewWithdrawAccountInternalServerError creates WithdrawAccountInternalServerError with default headers values
+func NewWithdrawAccountInternalServerError() *WithdrawAccountInternalServerError {
+	return &WithdrawAccountInternalServerError{}
+}
+
+// WriteResponse to the client
+func (o *WithdrawAccountInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
 }

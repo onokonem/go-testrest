@@ -3,10 +3,20 @@
 
 ## Prerequisities
 
+### Go version
+
+1.6+
+
 ### go-swagger:
 
 ```
 go get -u github.com/go-swagger/go-swagger/cmd/swagger
+```
+
+### reform
+
+```
+go get -u gopkg.in/reform.v1/reform
 ```
 
 ### database
@@ -36,7 +46,7 @@ host: 0.0.0.0
 port: 8080
 db:
   driver: mysql
-  dsn:    root@/testrest
+  dsn:    root@/testrest/
 ```
 
 ## API doc

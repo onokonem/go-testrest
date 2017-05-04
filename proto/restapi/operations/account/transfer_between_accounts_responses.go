@@ -7,27 +7,54 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	"github.com/onokonem/go-testrest/proto/models"
 )
 
-// TransferBetweenAccountsNoContentCode is the HTTP code returned for type TransferBetweenAccountsNoContent
-const TransferBetweenAccountsNoContentCode int = 204
+// TransferBetweenAccountsOKCode is the HTTP code returned for type TransferBetweenAccountsOK
+const TransferBetweenAccountsOKCode int = 200
 
-/*TransferBetweenAccountsNoContent successful operation
+/*TransferBetweenAccountsOK successful operation
 
-swagger:response transferBetweenAccountsNoContent
+swagger:response transferBetweenAccountsOK
 */
-type TransferBetweenAccountsNoContent struct {
+type TransferBetweenAccountsOK struct {
+
+	/*
+	  In: Body
+	*/
+	Payload []*models.Account `json:"body,omitempty"`
 }
 
-// NewTransferBetweenAccountsNoContent creates TransferBetweenAccountsNoContent with default headers values
-func NewTransferBetweenAccountsNoContent() *TransferBetweenAccountsNoContent {
-	return &TransferBetweenAccountsNoContent{}
+// NewTransferBetweenAccountsOK creates TransferBetweenAccountsOK with default headers values
+func NewTransferBetweenAccountsOK() *TransferBetweenAccountsOK {
+	return &TransferBetweenAccountsOK{}
+}
+
+// WithPayload adds the payload to the transfer between accounts o k response
+func (o *TransferBetweenAccountsOK) WithPayload(payload []*models.Account) *TransferBetweenAccountsOK {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the transfer between accounts o k response
+func (o *TransferBetweenAccountsOK) SetPayload(payload []*models.Account) {
+	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *TransferBetweenAccountsNoContent) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *TransferBetweenAccountsOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(204)
+	rw.WriteHeader(200)
+	payload := o.Payload
+	if payload == nil {
+		payload = make([]*models.Account, 0, 50)
+	}
+
+	if err := producer.Produce(rw, payload); err != nil {
+		panic(err) // let the recovery middleware deal with this
+	}
+
 }
 
 // TransferBetweenAccountsBadRequestCode is the HTTP code returned for type TransferBetweenAccountsBadRequest

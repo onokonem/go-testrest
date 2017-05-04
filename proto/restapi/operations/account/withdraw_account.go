@@ -27,7 +27,7 @@ func NewWithdrawAccount(ctx *middleware.Context, handler WithdrawAccountHandler)
 	return &WithdrawAccount{Context: ctx, Handler: handler}
 }
 
-/*WithdrawAccount swagger:route PUT /account/withdrawal/{accountID} account withdrawAccount
+/*WithdrawAccount swagger:route PUT /account/withdrawal/{id} account withdrawAccount
 
 Withdraw some money from some account
 

@@ -7,27 +7,51 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	"github.com/onokonem/go-testrest/proto/models"
 )
 
-// DepositToAccountNoContentCode is the HTTP code returned for type DepositToAccountNoContent
-const DepositToAccountNoContentCode int = 204
+// DepositToAccountOKCode is the HTTP code returned for type DepositToAccountOK
+const DepositToAccountOKCode int = 200
 
-/*DepositToAccountNoContent successful operation
+/*DepositToAccountOK successful operation
 
-swagger:response depositToAccountNoContent
+swagger:response depositToAccountOK
 */
-type DepositToAccountNoContent struct {
+type DepositToAccountOK struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Account `json:"body,omitempty"`
 }
 
-// NewDepositToAccountNoContent creates DepositToAccountNoContent with default headers values
-func NewDepositToAccountNoContent() *DepositToAccountNoContent {
-	return &DepositToAccountNoContent{}
+// NewDepositToAccountOK creates DepositToAccountOK with default headers values
+func NewDepositToAccountOK() *DepositToAccountOK {
+	return &DepositToAccountOK{}
+}
+
+// WithPayload adds the payload to the deposit to account o k response
+func (o *DepositToAccountOK) WithPayload(payload *models.Account) *DepositToAccountOK {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the deposit to account o k response
+func (o *DepositToAccountOK) SetPayload(payload *models.Account) {
+	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *DepositToAccountNoContent) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *DepositToAccountOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(204)
+	rw.WriteHeader(200)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }
 
 // DepositToAccountBadRequestCode is the HTTP code returned for type DepositToAccountBadRequest

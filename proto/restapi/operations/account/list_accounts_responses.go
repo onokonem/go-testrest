@@ -77,3 +77,24 @@ func (o *ListAccountsBadRequest) WriteResponse(rw http.ResponseWriter, producer 
 
 	rw.WriteHeader(400)
 }
+
+// ListAccountsInternalServerErrorCode is the HTTP code returned for type ListAccountsInternalServerError
+const ListAccountsInternalServerErrorCode int = 500
+
+/*ListAccountsInternalServerError Operation error
+
+swagger:response listAccountsInternalServerError
+*/
+type ListAccountsInternalServerError struct {
+}
+
+// NewListAccountsInternalServerError creates ListAccountsInternalServerError with default headers values
+func NewListAccountsInternalServerError() *ListAccountsInternalServerError {
+	return &ListAccountsInternalServerError{}
+}
+
+// WriteResponse to the client
+func (o *ListAccountsInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+}

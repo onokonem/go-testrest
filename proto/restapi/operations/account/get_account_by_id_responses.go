@@ -78,7 +78,7 @@ func (o *GetAccountByIDBadRequest) WriteResponse(rw http.ResponseWriter, produce
 // GetAccountByIDNotFoundCode is the HTTP code returned for type GetAccountByIDNotFound
 const GetAccountByIDNotFoundCode int = 404
 
-/*GetAccountByIDNotFound Pet not found
+/*GetAccountByIDNotFound Account not found
 
 swagger:response getAccountByIdNotFound
 */
@@ -94,4 +94,25 @@ func NewGetAccountByIDNotFound() *GetAccountByIDNotFound {
 func (o *GetAccountByIDNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(404)
+}
+
+// GetAccountByIDInternalServerErrorCode is the HTTP code returned for type GetAccountByIDInternalServerError
+const GetAccountByIDInternalServerErrorCode int = 500
+
+/*GetAccountByIDInternalServerError Operation error
+
+swagger:response getAccountByIdInternalServerError
+*/
+type GetAccountByIDInternalServerError struct {
+}
+
+// NewGetAccountByIDInternalServerError creates GetAccountByIDInternalServerError with default headers values
+func NewGetAccountByIDInternalServerError() *GetAccountByIDInternalServerError {
+	return &GetAccountByIDInternalServerError{}
+}
+
+// WriteResponse to the client
+func (o *GetAccountByIDInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
 }

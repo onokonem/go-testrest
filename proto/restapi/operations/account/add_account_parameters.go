@@ -4,14 +4,15 @@ package account
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"io"
 	"net/http"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 
-	"github.com/onokonem/go-testrest/proto/models"
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // NewAddAccountParams creates a new AddAccountParams object
@@ -30,11 +31,16 @@ type AddAccountParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request
 
-	/*Account to be added
+	/*Initial amount for the new account
 	  Required: true
-	  In: body
+	  In: query
 	*/
-	Body *models.Account
+	Amount int64
+	/*Name for the new account
+	  Required: true
+	  In: query
+	*/
+	Name string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -43,32 +49,58 @@ func (o *AddAccountParams) BindRequest(r *http.Request, route *middleware.Matche
 	var res []error
 	o.HTTPRequest = r
 
-	if runtime.HasBody(r) {
-		defer r.Body.Close()
-		var body models.Account
-		if err := route.Consumer.Consume(r.Body, &body); err != nil {
-			if err == io.EOF {
-				res = append(res, errors.Required("body", "body"))
-			} else {
-				res = append(res, errors.NewParseError("body", "body", "", err))
-			}
+	qs := runtime.Values(r.URL.Query())
 
-		} else {
-			if err := body.Validate(route.Formats); err != nil {
-				res = append(res, err)
-			}
+	qAmount, qhkAmount, _ := qs.GetOK("amount")
+	if err := o.bindAmount(qAmount, qhkAmount, route.Formats); err != nil {
+		res = append(res, err)
+	}
 
-			if len(res) == 0 {
-				o.Body = &body
-			}
-		}
-
-	} else {
-		res = append(res, errors.Required("body", "body"))
+	qName, qhkName, _ := qs.GetOK("name")
+	if err := o.bindName(qName, qhkName, route.Formats); err != nil {
+		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (o *AddAccountParams) bindAmount(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	if !hasKey {
+		return errors.Required("amount", "query")
+	}
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+	if err := validate.RequiredString("amount", "query", raw); err != nil {
+		return err
+	}
+
+	value, err := swag.ConvertInt64(raw)
+	if err != nil {
+		return errors.InvalidType("amount", "query", "int64", raw)
+	}
+	o.Amount = value
+
+	return nil
+}
+
+func (o *AddAccountParams) bindName(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	if !hasKey {
+		return errors.Required("name", "query")
+	}
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+	if err := validate.RequiredString("name", "query", raw); err != nil {
+		return err
+	}
+
+	o.Name = raw
+
 	return nil
 }

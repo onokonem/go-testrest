@@ -27,7 +27,7 @@ func NewDeleteAccount(ctx *middleware.Context, handler DeleteAccountHandler) *De
 	return &DeleteAccount{Context: ctx, Handler: handler}
 }
 
-/*DeleteAccount swagger:route DELETE /account/{accountID} account deleteAccount
+/*DeleteAccount swagger:route DELETE /account/{id} account deleteAccount
 
 Deletes an account
 

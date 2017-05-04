@@ -14,10 +14,10 @@ import (
 
 // TransferBetweenAccountsURL generates an URL for the transfer between accounts operation
 type TransferBetweenAccountsURL struct {
-	AccountID int64
+	ID int64
 
-	Amount *int64
-	Target *int64
+	Amount int64
+	Target int64
 
 	_basePath string
 	// avoid unkeyed usage
@@ -43,13 +43,13 @@ func (o *TransferBetweenAccountsURL) SetBasePath(bp string) {
 func (o *TransferBetweenAccountsURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/account/transfer/{accountID}"
+	var _path = "/account/transfer/{id}"
 
-	accountID := swag.FormatInt64(o.AccountID)
-	if accountID != "" {
-		_path = strings.Replace(_path, "{accountID}", accountID, -1)
+	id := swag.FormatInt64(o.ID)
+	if id != "" {
+		_path = strings.Replace(_path, "{id}", id, -1)
 	} else {
-		return nil, errors.New("AccountID is required on TransferBetweenAccountsURL")
+		return nil, errors.New("ID is required on TransferBetweenAccountsURL")
 	}
 	_basePath := o._basePath
 	if _basePath == "" {
@@ -59,18 +59,12 @@ func (o *TransferBetweenAccountsURL) Build() (*url.URL, error) {
 
 	qs := make(url.Values)
 
-	var amount string
-	if o.Amount != nil {
-		amount = swag.FormatInt64(*o.Amount)
-	}
+	amount := swag.FormatInt64(o.Amount)
 	if amount != "" {
 		qs.Set("amount", amount)
 	}
 
-	var target string
-	if o.Target != nil {
-		target = swag.FormatInt64(*o.Target)
-	}
+	target := swag.FormatInt64(o.Target)
 	if target != "" {
 		qs.Set("target", target)
 	}

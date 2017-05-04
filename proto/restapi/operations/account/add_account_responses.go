@@ -7,27 +7,51 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	"github.com/onokonem/go-testrest/proto/models"
 )
 
-// AddAccountNoContentCode is the HTTP code returned for type AddAccountNoContent
-const AddAccountNoContentCode int = 204
+// AddAccountOKCode is the HTTP code returned for type AddAccountOK
+const AddAccountOKCode int = 200
 
-/*AddAccountNoContent successful operation
+/*AddAccountOK successful operation
 
-swagger:response addAccountNoContent
+swagger:response addAccountOK
 */
-type AddAccountNoContent struct {
+type AddAccountOK struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Account `json:"body,omitempty"`
 }
 
-// NewAddAccountNoContent creates AddAccountNoContent with default headers values
-func NewAddAccountNoContent() *AddAccountNoContent {
-	return &AddAccountNoContent{}
+// NewAddAccountOK creates AddAccountOK with default headers values
+func NewAddAccountOK() *AddAccountOK {
+	return &AddAccountOK{}
+}
+
+// WithPayload adds the payload to the add account o k response
+func (o *AddAccountOK) WithPayload(payload *models.Account) *AddAccountOK {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the add account o k response
+func (o *AddAccountOK) SetPayload(payload *models.Account) {
+	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *AddAccountNoContent) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *AddAccountOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(204)
+	rw.WriteHeader(200)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }
 
 // AddAccountMethodNotAllowedCode is the HTTP code returned for type AddAccountMethodNotAllowed
@@ -49,4 +73,25 @@ func NewAddAccountMethodNotAllowed() *AddAccountMethodNotAllowed {
 func (o *AddAccountMethodNotAllowed) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(405)
+}
+
+// AddAccountInternalServerErrorCode is the HTTP code returned for type AddAccountInternalServerError
+const AddAccountInternalServerErrorCode int = 500
+
+/*AddAccountInternalServerError Operation error
+
+swagger:response addAccountInternalServerError
+*/
+type AddAccountInternalServerError struct {
+}
+
+// NewAddAccountInternalServerError creates AddAccountInternalServerError with default headers values
+func NewAddAccountInternalServerError() *AddAccountInternalServerError {
+	return &AddAccountInternalServerError{}
+}
+
+// WriteResponse to the client
+func (o *AddAccountInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
 }

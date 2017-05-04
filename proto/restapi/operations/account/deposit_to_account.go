@@ -27,7 +27,7 @@ func NewDepositToAccount(ctx *middleware.Context, handler DepositToAccountHandle
 	return &DepositToAccount{Context: ctx, Handler: handler}
 }
 
-/*DepositToAccount swagger:route PUT /account/deposit/{accountID} account depositToAccount
+/*DepositToAccount swagger:route PUT /account/deposit/{id} account depositToAccount
 
 Place some money to some account
 

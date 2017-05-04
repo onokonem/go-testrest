@@ -14,9 +14,9 @@ import (
 
 // DepositToAccountURL generates an URL for the deposit to account operation
 type DepositToAccountURL struct {
-	AccountID int64
+	ID int64
 
-	Amount *int64
+	Amount int64
 
 	_basePath string
 	// avoid unkeyed usage
@@ -42,13 +42,13 @@ func (o *DepositToAccountURL) SetBasePath(bp string) {
 func (o *DepositToAccountURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/account/deposit/{accountID}"
+	var _path = "/account/deposit/{id}"
 
-	accountID := swag.FormatInt64(o.AccountID)
-	if accountID != "" {
-		_path = strings.Replace(_path, "{accountID}", accountID, -1)
+	id := swag.FormatInt64(o.ID)
+	if id != "" {
+		_path = strings.Replace(_path, "{id}", id, -1)
 	} else {
-		return nil, errors.New("AccountID is required on DepositToAccountURL")
+		return nil, errors.New("ID is required on DepositToAccountURL")
 	}
 	_basePath := o._basePath
 	if _basePath == "" {
@@ -58,10 +58,7 @@ func (o *DepositToAccountURL) Build() (*url.URL, error) {
 
 	qs := make(url.Values)
 
-	var amount string
-	if o.Amount != nil {
-		amount = swag.FormatInt64(*o.Amount)
-	}
+	amount := swag.FormatInt64(o.Amount)
 	if amount != "" {
 		qs.Set("amount", amount)
 	}

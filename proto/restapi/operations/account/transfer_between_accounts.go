@@ -27,7 +27,7 @@ func NewTransferBetweenAccounts(ctx *middleware.Context, handler TransferBetween
 	return &TransferBetweenAccounts{Context: ctx, Handler: handler}
 }
 
-/*TransferBetweenAccounts swagger:route PUT /account/transfer/{accountID} account transferBetweenAccounts
+/*TransferBetweenAccounts swagger:route PUT /account/transfer/{id} account transferBetweenAccounts
 
 Transfer some money from some account to some other account
 

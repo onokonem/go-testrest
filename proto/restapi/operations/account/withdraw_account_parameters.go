@@ -10,6 +10,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 )
@@ -30,15 +31,16 @@ type WithdrawAccountParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request
 
+	/*Amount to be withdrawed
+	  Required: true
+	  In: query
+	*/
+	Amount int64
 	/*Account id to update
 	  Required: true
 	  In: path
 	*/
-	AccountID int64
-	/*Amount to be withdrawed
-	  In: query
-	*/
-	Amount *int64
+	ID int64
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -49,13 +51,13 @@ func (o *WithdrawAccountParams) BindRequest(r *http.Request, route *middleware.M
 
 	qs := runtime.Values(r.URL.Query())
 
-	rAccountID, rhkAccountID, _ := route.Params.GetOK("accountID")
-	if err := o.bindAccountID(rAccountID, rhkAccountID, route.Formats); err != nil {
+	qAmount, qhkAmount, _ := qs.GetOK("amount")
+	if err := o.bindAmount(qAmount, qhkAmount, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
-	qAmount, qhkAmount, _ := qs.GetOK("amount")
-	if err := o.bindAmount(qAmount, qhkAmount, route.Formats); err != nil {
+	rID, rhkID, _ := route.Params.GetOK("id")
+	if err := o.bindID(rID, rhkID, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -65,35 +67,38 @@ func (o *WithdrawAccountParams) BindRequest(r *http.Request, route *middleware.M
 	return nil
 }
 
-func (o *WithdrawAccountParams) bindAccountID(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	value, err := swag.ConvertInt64(raw)
-	if err != nil {
-		return errors.InvalidType("accountID", "path", "int64", raw)
-	}
-	o.AccountID = value
-
-	return nil
-}
-
 func (o *WithdrawAccountParams) bindAmount(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	if !hasKey {
+		return errors.Required("amount", "query")
+	}
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
 	}
-	if raw == "" { // empty values pass all other validations
-		return nil
+	if err := validate.RequiredString("amount", "query", raw); err != nil {
+		return err
 	}
 
 	value, err := swag.ConvertInt64(raw)
 	if err != nil {
 		return errors.InvalidType("amount", "query", "int64", raw)
 	}
-	o.Amount = &value
+	o.Amount = value
+
+	return nil
+}
+
+func (o *WithdrawAccountParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	value, err := swag.ConvertInt64(raw)
+	if err != nil {
+		return errors.InvalidType("id", "path", "int64", raw)
+	}
+	o.ID = value
 
 	return nil
 }
