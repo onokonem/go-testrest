@@ -18,13 +18,17 @@ type StructConfigDB struct {
 }
 
 // Struct representation for a YAML config file
+// Listen: local [addr]:port to listen on
+// DB: database params (see StructConfigDB)
 type StructConfig struct {
-	DB StructConfigDB `yaml:"db"`
+	Listen string         `yaml:"listen"`
+	DB     StructConfigDB `yaml:"db"`
 }
 
 // Config struct ready to be utilized by yaml.Unmarshal(in []byte, out interface{})
 // with all the defaults set
 var Conf = StructConfig{
+	Listen: ":8080",
 	DB: StructConfigDB{
 		Driver: "mysql",
 		DSN:    "root@/testrest",
@@ -43,7 +47,7 @@ func ParseConf(file string) error {
 		return fmt.Errorf("Failed to read file %q: %v", file, err)
 	}
 
-	err = yaml.Unmarshal(content, Conf)
+	err = yaml.Unmarshal(content, &Conf)
 	if err != nil {
 		return fmt.Errorf("Failed to parse file %q: %v", file, err)
 	}
