@@ -1,1 +1,40 @@
 # go-testrest
+:toc:
+
+## Prerequisities
+
+### go-swagger:
+
+```
+go get -u github.com/go-swagger/go-swagger/cmd/swagger
+```
+
+## Get the app
+
+```
+go get -u github.com/onokonem/go-testrest/cmd/testrest
+```
+
+### re-generate the swagger files
+
+run the following command in `proto` subdir
+
+```
+swagger generate server
+```
+
+## Config file example:
+
+```
+host: 0.0.0.0
+port: 8080
+db:
+  driver: mysql
+  dsn:    root@/testrest
+```
+
+## API doc
+
+```
+swagger serve proto/swagger.yml
+```
