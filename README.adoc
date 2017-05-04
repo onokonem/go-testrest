@@ -9,6 +9,10 @@
 go get -u github.com/go-swagger/go-swagger/cmd/swagger
 ```
 
+### database
+
+MySQL support implemented, scheme is in `scheme.mysql.sql` file
+
 ## Get the app
 
 ```
@@ -22,6 +26,8 @@ run the following command in `proto` subdir
 ```
 swagger generate server
 ```
+
+It is betted to cleanup `proto/cmd` `proto/models` `proto/restapi` dirs before.
 
 ## Config file example:
 
